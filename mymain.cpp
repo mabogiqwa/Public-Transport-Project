@@ -4,12 +4,46 @@
 #include <string>
 #include <cctype>
 
-struct Passenger
+class Passenger
 {
+public:
+    Passenger() : timeInstance(0), boardingTime(0), routeSymbol(' ') {}
+    Passenger& operator=(const Passenger& p);
+    void setTimeInstance(int tI);
+    void setBoardingTime(int bT);
+    void setRouteSymbol(char rS);
+    int getTimeInstance();
+    int getBoardingTime();
+    char getRouteSymbol();
+private:
     int timeInstance;
     int boardingTime;
     char routeSymbol;
 };
+
+//Overloading = operator to avoid sharing of memory
+Passenger& Passenger::operator=(const Passenger& p)
+{
+    Passenger altP;
+
+    altP.boardingTime = p.boardingTime;
+    altP.timeInstance = p.timeInstance;
+    altP.routeSymbol = p.routeSymbol;
+
+    return *this;
+}
+
+void Passenger::setBoardingTime(int bT) { boardingTime = bT; }
+
+void Passenger::setTimeInstance(int tI) { timeInstance = tI; }
+
+void Passenger::setRouteSymbol(char rS) { routeSymbol = rS; }
+
+int Passenger::getBoardingTime() { return boardingTime; }
+
+int Passenger::getTimeInstance() { return timeInstance; }
+
+char Passenger::getRouteSymbol() { return routeSymbol; }
 
 struct Node
 {
@@ -20,16 +54,21 @@ typedef Node* NodePtr;
 
 std::vector<Passenger> store_data();
 
+void print_table();
+
 int main()
 {
     std::vector<Passenger> data = store_data();
 
-    data.pop_back(); //removes the extra entry at the back
-
     for (int i = 0; i < data.size(); i++)
     {
-        std::cout << data[i].timeInstance << " " << data[i].routeSymbol << " " << data[i].boardingTime << std::endl;
+        std::cout << data[i].getTimeInstance() << " " << data[i].getRouteSymbol() << " " << data[i].getBoardingTime() << std::endl;
     }
+}
+
+void print_table()
+{
+    //std::cout << "T\tnext\t\tS\tL\tC\tWQS\tWQL\t\WQC\tCS\tCL\tCC" << std::endl;
 }
 
 std::vector<Passenger> store_data()
@@ -51,7 +90,6 @@ std::vector<Passenger> store_data()
     while (ins.get(next))
     {
         if (next == '\n') { //Check if we have reached the end of line
-            //std::cout << somePassenger.timeInstance << " " << somePassenger.routeSymbol << " " << somePassenger.boardingTime << std::endl;
             passengerData.push_back(somePassenger);
             index = 0;
         }
@@ -63,24 +101,26 @@ std::vector<Passenger> store_data()
 
                 doubleDigit += next;
                 doubleDigit += ins.peek();
-                somePassenger.timeInstance = std::stoi(doubleDigit);
+                somePassenger.setTimeInstance(std::stoi(doubleDigit));
             } else {
-                somePassenger.timeInstance = std::stoi(std::string(1, next));
+                somePassenger.setTimeInstance(std::stoi(std::string(1, next)));
             }
         }
         if (isalpha(next)) //Checks if character is a char
         {
-            if (next == 'C') { somePassenger.routeSymbol = next; }
-            if (next == 'L') { somePassenger.routeSymbol = next; }
-            if (next == 'S') { somePassenger.routeSymbol = next; }
+            if (next == 'C') { somePassenger.setRouteSymbol(next); }
+            if (next == 'L') { somePassenger.setRouteSymbol(next); }
+            if (next == 'S') { somePassenger.setRouteSymbol(next); }
         }
         if (isdigit(next)) //Stores the boarding time
         {
-            somePassenger.boardingTime = std::stoi(std::string(1, next));
+            somePassenger.setBoardingTime(std::stoi(std::string(1, next)));
         }
         index++;
     }
     ins.close();
+
+    passengerData.pop_back(); //removes the extra entry at the back
 
     return passengerData;
 }
