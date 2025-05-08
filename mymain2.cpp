@@ -79,9 +79,11 @@ int main()
     NodePtr head;
 
     currentPtr = initialize_list(p1);
-    //head = currentPtr;
+    head = currentPtr;
 
-    //std::cout << currentPtr->passenger;
+    add_node(currentPtr, Passenger(2,3,'C'));
+    add_node(currentPtr, Passenger(3,1,'C'));
+    std::cout << currentPtr->passenger;
 
     return 0;
 }
@@ -94,15 +96,15 @@ Node* initialize_list(Passenger p)
     tempPtr->passenger.setRouteSymbol(p.getRouteSymbol());
     tempPtr->link = nullptr;
 
-    std::cout << tempPtr->passenger;
-
     return tempPtr;
 }
 
 void add_node(NodePtr &head, Passenger p)
 {
     NodePtr tempPtr = new Node;
-    tempPtr->passenger = p;
+    tempPtr->passenger.setTimeInstance(p.getTimeInstance());
+    tempPtr->passenger.setBoardingTime(p.getBoardingTime());
+    tempPtr->passenger.setRouteSymbol(p.getRouteSymbol());
     head->link = tempPtr;
     head = tempPtr;
     tempPtr->link = nullptr;
