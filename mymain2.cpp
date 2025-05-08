@@ -70,7 +70,11 @@ void add_node(NodePtr &head, Passenger p);
 
 void pop_node(NodePtr &head);
 
+void pop_front(NodePtr &actualHead);
+
 void deallocate_list(NodePtr &head);
+
+void print(NodePtr &head);
 
 int main()
 {
@@ -83,7 +87,12 @@ int main()
 
     add_node(currentPtr, Passenger(2,3,'C'));
     add_node(currentPtr, Passenger(3,1,'C'));
-    std::cout << currentPtr->passenger;
+
+    pop_front(head);
+
+    //std::cout << head->passenger;
+
+    print(head);
 
     return 0;
 }
@@ -110,9 +119,27 @@ void add_node(NodePtr &head, Passenger p)
     tempPtr->link = nullptr;
 }
 
-void pop_node(NodePtr &head)
+void print(NodePtr &head)
 {
-    NodePtr tempPtr;
+    NodePtr tempPtr = new Node;
+    for (tempPtr = head; tempPtr != nullptr; tempPtr = tempPtr->link)
+    {
+        std::cout << tempPtr->passenger << std::endl << std::endl;
+    }
+
+}
+
+void pop_front(NodePtr &actualHead)
+{
+
+    NodePtr tempPtr = new Node;
+
+    tempPtr = actualHead;
+    NodePtr newHead = actualHead->link;
+    actualHead = newHead;
+    tempPtr->link = nullptr;
+
+    delete tempPtr;
 }
 
 void deallocate_list(NodePtr &head)
