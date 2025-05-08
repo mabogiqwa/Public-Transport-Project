@@ -131,7 +131,6 @@ void print(NodePtr &head)
 
 void pop_front(NodePtr &actualHead)
 {
-
     NodePtr tempPtr = new Node;
 
     tempPtr = actualHead;
