@@ -6,9 +6,13 @@ public:
     Passenger() : timeInstance(0), boardingTime(0), routeSymbol(' ') {}
     Passenger(int tI, int bT, char rS);
     Passenger& operator=(const Passenger& p);
+    friend std::ostream& operator<<(std::ostream& out, const Passenger& p);
     void setTimeInstance(int tI);
     void setBoardingTime(int bT);
     void setRouteSymbol(char rS);
+    int getTimeInstance() const;
+    int getBoardingTime() const;
+    char getRouteSymbol() const;
 private:
     int timeInstance;
     int boardingTime;
@@ -34,11 +38,24 @@ Passenger& Passenger::operator=(const Passenger& p)
     return *this;
 }
 
+std::ostream& operator<<(std::ostream& out, const Passenger& p)
+{
+    out << "Time instance: " << p.getTimeInstance() << "\nBoarding Time: " << p.getBoardingTime() << "\nRoute symbol: " << p.getRouteSymbol();
+
+    return out;
+}
+
 void Passenger::setBoardingTime(int bT) { boardingTime = bT; }
 
 void Passenger::setTimeInstance(int tI) { timeInstance = tI; }
 
 void Passenger::setRouteSymbol(char rS) { routeSymbol = rS; }
+
+int Passenger::getBoardingTime() const { return boardingTime; }
+
+int Passenger::getTimeInstance() const { return timeInstance; }
+
+char Passenger::getRouteSymbol() const { return routeSymbol; }
 
 struct Node
 {
@@ -58,14 +75,13 @@ void deallocate_list(NodePtr &head);
 int main()
 {
     Passenger p1(1,2,'S');
-    NodePtr currentPtr, head;
+    NodePtr currentPtr = new Node;
+    NodePtr head;
 
     currentPtr = initialize_list(p1);
-    head = currentPtr;
+    //head = currentPtr;
 
-    add_node(currentPtr, Passenger(1,2,'C'));
-    add_node(currentPtr, Passenger(2,3,'L'));
-    add_node(currentPtr, Passenger(2,2,'C'));
+    //std::cout << currentPtr->passenger;
 
     return 0;
 }
@@ -73,8 +89,12 @@ int main()
 Node* initialize_list(Passenger p)
 {
     NodePtr tempPtr = new Node;
-    tempPtr->passenger = p;
+    tempPtr->passenger.setTimeInstance(p.getTimeInstance());
+    tempPtr->passenger.setBoardingTime(p.getBoardingTime());
+    tempPtr->passenger.setRouteSymbol(p.getRouteSymbol());
     tempPtr->link = nullptr;
+
+    std::cout << tempPtr->passenger;
 
     return tempPtr;
 }
