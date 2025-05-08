@@ -81,7 +81,7 @@ std::vector<Passenger> store_data()
     ins.open("taxiData.txt");
     if (ins.fail())
     {
-        std::cout << "The file failed to open!" << std::endl;
+        std::cerr << "The file failed to open!";
         exit(1);
     }
 
