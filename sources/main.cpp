@@ -6,9 +6,14 @@
 
 std::vector<Passenger> store_data();
 
+void display_table(std::vector<Passenger> data1);
+
 int main()
 {
     std::vector<Passenger> data;
+
+    data = store_data();
+
     NodePtr currentPtr = initialize_list(Passenger(1,2,'S'));
     NodePtr head = currentPtr;
 
@@ -17,12 +22,38 @@ int main()
 
     pop_front(head);
 
-    data = store_data();
+    deallocate_list(head);
 
     return 0;
 }
 
-std::vector<Passenger> store_data()
+void display_table(std::vector<Passenger> data1)
+{
+    int storeSCTimeInstances = 0, storeLTimeInstances = 0;
+    int storeCTimeInstances = 0;
+    int sRTaxiCapacity = 5, lRTaxiCapacity = 5;
+    int cRTaxiCapacity = 5;
+
+    NodePtr wshrtDistanceQ = new Node;
+    NodePtr wlongDistanceQ = new Node;
+    NodePtr wcityDistanceQ = new Node;
+
+    for (int timeInstance = 0; timeInstance < 33; timeInstance++)
+    {
+        std::string routeSymbol = data1[i].getRouteSymbol();
+        if (routeSymbol == 'S' && (scoreSCTimeInstances == 0))
+        {
+            storeSCTimeInstances += data1[i].getBoardingTime();
+        }
+        else if (scoreSCTimeInstances != 0)
+        {
+            wshirtDistanceQ = initialize_list(data[i]);
+            storeSCTimeInstances -= 1;
+        }
+    }
+}
+
+std::vector<Passenger> store_data(std::vector<Passenger> passengerData)
 {
     std::ifstream ins; //Declare instream object
     std::vector<Passenger> passengerData;
