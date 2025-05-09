@@ -33,24 +33,53 @@ void display_table(std::vector<Passenger> data1)
     int storeCTimeInstances = 0;
     int sRTaxiCapacity = 5, lRTaxiCapacity = 5;
     int cRTaxiCapacity = 5;
+    int keepTrack = 0;
 
-    NodePtr wshrtDistanceQ = new Node;
-    NodePtr wlongDistanceQ = new Node;
-    NodePtr wcityDistanceQ = new Node;
+    NodePtr wshrtDistanceQHead = new Node;
+    NodePtr wlongDistanceQHead = new Node;
+    NodePtr wcityDistanceQHead = new Node;
 
     for (int timeInstance = 0; timeInstance < 33; timeInstance++)
     {
-        std::string routeSymbol = data1[i].getRouteSymbol();
-        if (routeSymbol == 'S' && (scoreSCTimeInstances == 0))
-        {
-            storeSCTimeInstances += data1[i].getBoardingTime();
-        }
-        else if (scoreSCTimeInstances != 0)
-        {
-            wshirtDistanceQ = initialize_list(data[i]);
+        if (timeInstance > 0) {
             storeSCTimeInstances -= 1;
+            storeCTimeInstances -= 1;
+            storeLTimeInstances -= 1;
+        }
+
+        char routeSymbol = data1[i].getRouteSymbol();
+
+        if (routeSymbol == 'S' && (scoreSCTimeInstances == 0)) //Logic for checking if the passenger is taking the short route
+        {
+            storeSCTimeInstances += data1[i].getBoardingTime(); //This line of code will be executed if there is no passenger waiting to board
+        }
+        else if (routeSymbol == 'S' && (scoreSCTimeInstances != 0))
+        {
+            wshrtDistanceQ = initialize_list(data[i]); //This line of code is executed if there is a passenger boarding
+        }
+
+        if (routeSymbol == 'L'  && (scoreLTimeInstances == 0)) //Logic for checking if the passenger is taking the long route
+        {
+            storeLTimeInstances += data1[i].getBoardingTime(); //This line of code will be executed if there is no passenger waiting to board
+        }
+        else if (routeSymbol == 'L' && (storeLTimeInstances != 0))
+        {
+            wlongDistanceQ = initialize_list(data[i]); //This line of code is executed if there is a passenger boarding
+        }
+
+        if (routeSymbol == 'C' && (scoreCTimeInstances == 0)) //Logic for checking if the passenger is taking the city route
+        {
+            storeCTimeInstances += data1[i].getBoardingTime(); //This line of code will be executed if there is no passenger waiting to board
+        }
+        else if (routeSymbol == 'C' && (scoreCTimeInstances != 0))
+        {
+            wcityDistanceQ = initialize_list(data[i]); //This line of code is executed if there is a passenger boarding
         }
     }
+
+    deallocate_list(wshrtDistanceQHead);
+    deallocate_list(wlongDistanceQHead);
+    deallocate_list(wcityDistanceQHead);
 }
 
 std::vector<Passenger> store_data(std::vector<Passenger> passengerData)
