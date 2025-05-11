@@ -1,3 +1,4 @@
+//Code will generate various errors, not ready to be run
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -82,7 +83,7 @@ void display_table(std::vector<Passenger> data1)
     deallocate_list(wcityDistanceQHead);
 }
 
-std::vector<Passenger> store_data(std::vector<Passenger> passengerData)
+std::vector<Passenger> store_data()
 {
     std::ifstream ins; //Declare instream object
     std::vector<Passenger> passengerData;
